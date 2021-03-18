@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ứng dụng quản lý sản phẩm</title>
+  </head>
+  <body>
+    <!-- Ứng dụng quản lý sản phẩm có các chức năng sau: -->
+
+    <!--     Hiển thị danh sách sản phẩm -->
+    <!--     Có thể thêm một sản phẩm mới vào danh sách -->
+    <!--     Có thể sửa tên của sản phẩm trong danh sách -->
+    <!--     Có thể xoá một sản phẩm khỏi danh sách -->
+
+    <h2>Add new product</h2>
+    <div>
+      <input id="inputNewProduct" type="text" name="" />
+      <button onclick="add();">Add</button>
+      <br />
+    </div>
+
+    <br />
+
+    <div id="formEdit"></div>
+
+    <div>
+      <h2>Display all product</h2>
+      <div id="tableProduct"></div>
+    </div>
+
+    <script>
+      let products = [
+        "Sony Xperia",
+        "Nokia",
+        "Iphone",
+        "Samsung",
+        "Oppo",
+        "Ubuntu phone"
+      ];
+      function add() {
+        let temp = document.getElementById("inputNewProduct");
+        products.push(temp.value);
+        show();
+        temp.value = "";
+        temp.focus();
+      }
+
+      function remove(index) {
+        products = products.filter(function(e, i) {
+          return i !== index;
+        });
+        show();
+      }
+
+      function update(index) {
+        products[index] = document.getElementById("edit").value;
+        document.getElementById("formEdit").innerHTML = "";
+        show();
+      }
+
+      function showEdit(index) {
+        document.getElementById("formEdit").innerHTML = `
+          <input id="edit" type="text" name="" value='${products[index]}'>
+          <button onclick="update(${index});">Update</button>
+          `;
+        document.getElementById("edit").focus();
+      }
+
+      function show() {
+        let tableProduct = "<table>";
+        for (let i = 0; i < products.length; i++) {
+          tableProduct += `
+          <tr>
+            <td>${products[i]}</td>
+            <td><button onclick='showEdit(${i});'>Edit</button></td>
+            <td><button onclick='remove(${i});'>Delete</button></td>
+          </tr>
+          `;
+        }
+        tableProduct += "</table>";
+        document.getElementById("tableProduct").innerHTML = tableProduct;
+      }
+      show();
+    </script>
+  </body>
+</html>
